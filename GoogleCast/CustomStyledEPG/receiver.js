@@ -23,7 +23,7 @@ playerManager.setMessageInterceptor(
       window.clearTimeout(epgTimeout);
 
       let channelId = findInCustomData(request, 'channelId');
-      if (channelId !== null) {
+      if (channelId !== null && channelId !== "") {
           request.media.metadata.title = "";
           request.media.metadata.subtitle = "";
           loadGuideDataForChannel(channelId);

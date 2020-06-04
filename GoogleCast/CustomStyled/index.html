@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+</head>
+<body>
+  <cast-media-player></cast-media-player>
+  
+  <style>
+    /* https://developers.google.com/cast/docs/caf_receiver/customize_ui */
+    body {
+        --font-family: "Google Sans";
+        /* --playback-logo-image: url('assets/'); */
+    }
+    cast-media-player {
+        /* --theme-hue: 100; */
+        --progress-color: rgb(97, 167, 100);  /*  rgb(125, 175, 105) */
+        /* --splash-image: url('assets/splash-image.jpg'); */
+    }
+  </style>
+
+  <script>
+    //const context = cast.framework.CastReceiverContext.getInstance();
+
+    // Update style using javascript
+    //let playerElement = document.getElementsByTagName("cast-media-player")[0];
+    //playerElement.style.setProperty('--splash-image', 'url("http://some/other/image.png")');
+
+    //context.start();
+  </script>
+</body>
+</html>

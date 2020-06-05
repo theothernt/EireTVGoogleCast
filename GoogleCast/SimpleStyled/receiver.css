@@ -5,11 +5,11 @@ body {
   }
   
 .background {
-    /* background: center no-repeat url(background.png); */
+    background: center no-repeat url(assets/background.png);
   }
   
   .logo {
-    /* background-image: url(logo.png); */
+    background-image: url(assets/logo.png);
   }
   
   .progressBar {
@@ -17,10 +17,10 @@ body {
   }
   
   .splash {
-    /* background-image: url(splash.png); */
+    background-image: url(assets/splash.png);
   }
   
   .watermark {
-    /* background-image: url(watermark.png);
-    background-size: 57px 57px; */
+    background-image: url(assets/watermark.png);
+    background-size: 57px 57px;
   }

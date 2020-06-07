@@ -1,0 +1,46 @@
+body {
+  --font-family: "Google Sans";
+  --background-image: url('assets/background.png');
+  --background-color: rgb(25, 10, 78);
+}
+
+cast-media-player {
+  --theme-hue: 180;
+  --progress-color: rgb(251, 255, 0);
+  
+  --spinner-image: url('assets/spinner.png');
+  --buffering-image: url('assets/buffering.png');
+
+  --splash-background: rgb(175, 30, 83);
+  --splash-image: url('assets/splash.png');
+  --splash-size: 800px 400px;
+  /* --splash-color: rgb(31, 31, 31); */
+
+  --logo-background: rgb(30, 175, 49);
+  --logo-image: url('assets/logo.png');
+  --logo-size: auto;
+  --logo-color:	transparent;
+  --logo-repeat: no-repeat;
+
+  --playback-logo-image: url('assets/playback-logo.png');
+
+  --watermark-background: rgb(255, 81, 0);
+  --watermark-image: url('assets/watermark.png');
+  --watermark-position: top left;
+  --watermark-size: auto;
+  --watermark-color: transparent;
+  --watermark-repeat: no-repeat;
+
+  --slideshow-interval: 5;
+  --slideshow-animation: 1;
+  --slideshow-image-1: url('assets/slideshow-1.png');
+  --slideshow-image-2: url('assets/slideshow-2.png');
+  --slideshow-image-3: url('assets/slideshow-3.png');
+  --slideshow-image-4: url('assets/slideshow-4.png');
+  /* --slideshow-image-5: url('assets/slideshow-5.png');
+  --slideshow-image-6: url('assets/slideshow-6.png');
+  --slideshow-image-7: url('assets/slideshow-7.png');
+  --slideshow-image-8: url('assets/slideshow-8.png');
+  --slideshow-image-9: url('assets/slideshow-9.png');
+  --slideshow-image-10: url('assets/slideshow-10.png'); */
+}

@@ -5,9 +5,18 @@ const playerManager = castContext.getPlayerManager();
 const TAG = 'EireTV';
 
 var epgTimeout;
+var headers;
 
-//const playbackConfig = new cast.framework.PlaybackConfig();
+const playbackConfig = new cast.framework.PlaybackConfig();
 //playbackConfig.autoResumeDuration = 5;
+
+playbackConfig.manifestRequestHandler = requestInfo => {
+  //console.log(requestInfo);
+  if (headers !== null && typeof headers === 'object') {
+    //console.log("Trying to add headers...");
+    requestInfo.headers = headers;
+  }
+};
 
 //castDebugLogger.setEnabled(true);
 //castDebugLogger.showDebugLogs(false);
@@ -19,8 +28,9 @@ playerManager.setMessageInterceptor(
     cast.framework.messages.MessageType.LOAD,
     (request) => {
       
-      console.log(request);
+      //console.log(request);
       window.clearTimeout(epgTimeout);
+      headers = findInCustomData(request, 'headers');
 
       let channelId = findInCustomData(request, 'channelId');
       if (channelId !== null && channelId !== "") {
@@ -95,10 +105,10 @@ function findInCustomData(request, key)
 
   // for Windows/legacy
   if (Array.isArray(data)) {
-    for (let i=0; i<data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       if (typeof data[i] === 'object' && data[i] !== null) {
         if (data[i].Key !== null && data[i].Key === key) {
-        	//console.log("Found legacy channel id");
+          //console.log(key + " found (legacy)");
           return data[i].Value;
         }
       }
@@ -108,12 +118,12 @@ function findInCustomData(request, key)
   // iOS, Android, etc
   if (typeof data === 'object') {
     if (key in data) {
-    	//console.log("Found channel id");
+      //console.log(key + " found");
       return data[key];
     }
   }
 
-	//console.log("Channel id not found");
+  //console.log(key + " not found");
   return null;
 }
 
@@ -135,5 +145,5 @@ function getSimpleIsoDate() {
   return '' + now.getFullYear() + twoDigit(now.getMonth() + 1) + twoDigit(now.getDate());
 }
 
-//castContext.start({ playbackConfig: playbackConfig });
-castContext.start();
+castContext.start({ playbackConfig: playbackConfig });
+//castContext.start();

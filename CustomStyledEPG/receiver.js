@@ -33,7 +33,9 @@ playerManager.setMessageInterceptor(
       headers = findInCustomData(request, 'headers');
 
       let channelId = findInCustomData(request, 'channelId');
-      if (channelId !== null && channelId !== "") {
+      if (channelId !== null && 
+        channelId !== "" && 
+        channelId != 0) {
           request.media.metadata.title = "";
           request.media.metadata.subtitle = "";
           loadGuideDataForChannel(channelId);
@@ -103,6 +105,11 @@ function findInCustomData(request, key)
 {
   const data = request.media.customData;
 
+  if (data === null) {
+    //console.log("customData is null");
+    return null;
+  }
+  
   // for Windows/legacy
   if (Array.isArray(data)) {
     for (let i = 0; i < data.length; i++) {

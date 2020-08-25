@@ -1,25 +1,43 @@
 const castContext = cast.framework.CastReceiverContext.getInstance();
-//const castDebugLogger = cast.debug.CastDebugLogger.getInstance();
 
 const playerManager = castContext.getPlayerManager();
-const TAG = 'EireTV';
-
+const tag = 'eiretv';
 var epgTimeout;
 var headers;
 
 const playbackConfig = new cast.framework.PlaybackConfig();
 //playbackConfig.autoResumeDuration = 5;
 
+/**
+ * Debug and logging options
+ */
+var castDebugLogger;
+const enableDebugAndLogging = false;
+if (enableDebugAndLogging) {
+  castDebugLogger = cast.debug.CastDebugLogger.getInstance();
+  castDebugLogger.setEnabled(true);
+  castDebugLogger.showDebugLogs(false);
+}
+
+/**
+ * Very simple logging to console
+ */
+function Log(message) {
+  if (!enableDebugAndLogging) return;
+  //console.log(message);
+  castDebugLogger.info(tag, message);
+}
+
+/**
+ * Load manifest (HLS/DASH) interceptor
+ */
 playbackConfig.manifestRequestHandler = requestInfo => {
-  //console.log(requestInfo);
+  //Log(requestInfo);
   if (headers !== null && typeof headers === 'object') {
-    //console.log("Trying to add headers...");
+    Log("Trying to add headers...");
     requestInfo.headers = headers;
   }
 };
-
-//castDebugLogger.setEnabled(true);
-//castDebugLogger.showDebugLogs(false);
 
 /**
  * Load interceptor
@@ -28,7 +46,7 @@ playerManager.setMessageInterceptor(
     cast.framework.messages.MessageType.LOAD,
     (request) => {
       
-      //console.log(request);
+      Log(request);
       window.clearTimeout(epgTimeout);
       headers = findInCustomData(request, 'headers');
 
@@ -54,7 +72,7 @@ playerManager.setMessageInterceptor(
  */
 function loadGuideDataForChannel(channelId) {
 
-  //console.log("Looking up EPG data for: " + channelId);
+  Log("Looking up EPG data for: " + channelId);
 
   const currentTime = parseInt(new Date().getTime() / 1000).toFixed(0);
   const currentDate = getSimpleIsoDate();
@@ -92,7 +110,7 @@ function loadGuideDataForChannel(channelId) {
         const endTime = (lastShow.st + lastShow.d) - currentTime;
         epgTimeout = window.setTimeout(loadGuideDataForChannel, endTime * 1000, channelId);
 
-        //console.log("Next EPG update at: " + epocToReadableDate(lastShow.st + lastShow.d));
+        Log("Next EPG update at: " + epocToReadableDate(lastShow.st + lastShow.d));
 
         playerManager.getQueueManager().setContainerMetadata(containerMetadata);
       });
@@ -106,7 +124,7 @@ function findInCustomData(request, key)
   const data = request.media.customData;
 
   if (data === null) {
-    //console.log("customData is null");
+    Log("customData is null");
     return null;
   }
   
@@ -115,7 +133,7 @@ function findInCustomData(request, key)
     for (let i = 0; i < data.length; i++) {
       if (typeof data[i] === 'object' && data[i] !== null) {
         if (data[i].Key !== null && data[i].Key === key) {
-          //console.log(key + " found (legacy)");
+          Log(key + " found (legacy)");
           return data[i].Value;
         }
       }
@@ -125,12 +143,12 @@ function findInCustomData(request, key)
   // iOS, Android, etc
   if (typeof data === 'object') {
     if (key in data) {
-      //console.log(key + " found");
+      Log(key + " found");
       return data[key];
     }
   }
 
-  //console.log(key + " not found");
+  Log(key + " not found");
   return null;
 }
 
